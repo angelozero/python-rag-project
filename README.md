@@ -86,3 +86,12 @@ uv run main.py
 | 01 - Criando a base de dados vetorizada com Ollama Embeddings |
 | 02 - Implementando o RAG com ChatOllama |
 | 03 - Migração de OpenAI para Ollama (local e gratuito) |
+
+---
+
+#### Referências:
+- [Youtube - Agente de IA completo com Python - Projeto RAG com Langchain](https://www.youtube.com/watch?v=0M8iO5ykY-E)
+- [Langchain Documentation](https://docs.langchain.com)
+
+#### Código fonte do projeto
+- [Github - AngeloZero](https://github.com/angelozero/python-rag-project)
