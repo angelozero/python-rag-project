@@ -1,7 +1,7 @@
 # Python Langchain - RAG
 
-![python-langchain](python-langchain.png)
-![python-llm](fluxograma-python-llm.jpeg)
+![python-langchain](./images/python-langchain.png)
+
 
 ### O que é RAG ?
 - RAG (Retrieval-Augmented Generation ou Geração Aumentada por Recuperação) resolve isso dando um "manual de consulta" para esse assistente.
@@ -79,7 +79,7 @@ uv run create_db.py
 ```bash
 uv run main.py
 ```
-
+![python-llm](./images/fluxograma-python-llm.jpeg)
 ---
 
 ### Lanchain Smith - Monitorando suas Requisições
@@ -101,7 +101,7 @@ OPENAI_API_KEY="api-key-angelo-1234"
 
 - Execute a classe `main.py` e verifique os logs no site.
 
-![langchain-smith](langchain-smith.png)
+![langchain-smith](./images/langchain-smith.png)
 
 ---
 
@@ -118,6 +118,40 @@ A Tavily entrega apenas o **texto limpo e relevante** das suas consultasn na web
 - **Content Extraction:** Extrai apenas o conteúdo principal de um artigo, descartando anúncios, menus e rodapés.
 - **Filter & Domain Control:** Permite restringir a busca a domínios específicos ou tipos de arquivos (como PDFs).
 
+#### Fluxo do serviço
+Aqui está o resumo do fluxo correlacionando cada etapa diretamente aos trechos do seu código Python:
+
+1. Setup - O `agent.invoke()` envia as mensagens iniciais.
+```python
+agent.invoke({"messages": [SystemMessage(...), HumanMessage(...)]})
+```
+
+2. Raciocínio - O LLM identifica a necessidade da ferramenta e gera um pedido de chamada.
+```python
+tool_calls=[{'name': 'search', 'args': {'query': '...'}}]
+```
+
+3. Ação - O Python executa a função decorada que contém o seu "mock" (dado fixo).
+```python
+@tool
+def search(query: str):
+    return "Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune."
+```
+
+4. Observação - O resultado da função é encapsulado para que a IA possa "ler".
+```python
+ToolMessage(content='Mercury, Venus, Earth...')
+```
+
+5. Re-raciocínio - A IA lê o histórico e aplica a regra de formatação final.
+```python
+# Instrução "When you get the answer... write: 'The planets are [names]'"
+```
+
+6. Finalização - O Agente entrega a resposta textual final e encerra a execução.
+```python
+# AIMessage(content='The planets are Mercury, Venus...')` com `finish_reason: 'stop'
+```
 
 
 ---

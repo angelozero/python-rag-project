@@ -3,8 +3,10 @@ from langchain.agents import create_agent
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage, SystemMessage
 from src.config.llm_factory import chat_model
+from tavily import TavilyClient
 
 load_dotenv()
+tavily = TavilyClient()
 
 
 def tavily_execute():
@@ -27,7 +29,7 @@ def tavily_execute():
                 ),
             ]
         },
-        config={"recursion_limit": 5}
+        config={"recursion_limit": 10}
     )
     print(f"\nTools Response: ", result)
 
@@ -39,4 +41,4 @@ def search(query: str) -> str:
     After receiving the results, provide the final answer to the user immediately.
     """
     print(f"\nSearching for '{query}'")
-    return "Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune."
+    return tavily.search(query=query)

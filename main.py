@@ -2,7 +2,7 @@ import sys
 import os
 from src.service.database import create_db
 from src.service.rag import rag_execute
-from src.service.tavily import tavily_execute
+from src.service.tools_tavily import tavily_execute
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
