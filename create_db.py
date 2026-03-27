@@ -1,7 +1,8 @@
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma.vectorstores import Chroma
-from langchain_ollama import OllamaEmbeddings
+# from langchain_ollama import OllamaEmbeddings
+from factory_llm import generate_init_embeddings
 
 BASE_FOLDER = "base"
 
@@ -15,7 +16,7 @@ def create_db():
     
     # 2. Split the documents into smaller, manageable pieces (chunks)
     chunks = split_text_into_chunks(raw_documents)
-    # print(len(chunks))
+    print(f"\n\nTotal Chunks generated: {len(chunks)}\n\n")
     
     # 3. Convert text chunks into vectors and store them in the database
     create_vector_index(chunks)
@@ -37,7 +38,8 @@ def split_text_into_chunks(documents):
     return chunks
 
 def create_vector_index(chunks):
-    embeddings = OllamaEmbeddings(model="llama3.2")
+    # embeddings = OllamaEmbeddings(model="llama3.2")
+    embeddings = generate_init_embeddings()
     db = Chroma.from_documents(chunks, embeddings, persist_directory="chunks_db")
     print("Chunk Data Base created with success")
     pass

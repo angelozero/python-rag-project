@@ -1,6 +1,7 @@
 # Python Langchain - RAG
 
 ![python-langchain](python-langchain.png)
+![python-llm](fluxograma-python-llm.jpeg)
 
 ### O que é RAG ?
 - RAG (Retrieval-Augmented Generation ou Geração Aumentada por Recuperação) resolve isso dando um "manual de consulta" para esse assistente.
