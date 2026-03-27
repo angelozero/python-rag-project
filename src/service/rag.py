@@ -1,4 +1,5 @@
 from langchain_chroma.vectorstores import Chroma
+
 # from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from src.config.llm_factory import chat_model, get_embeddings
@@ -15,6 +16,7 @@ Responsa a pergunta baseada apenas no seguinte contexto:
 Responsa a pergunta baseada apenas no seguinte contexto:
 {question}
 """
+
 
 def rag_execute():
     # 1. Prepare the vector database with Ollama embeddings

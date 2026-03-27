@@ -6,7 +6,7 @@
 docker-compose up -d
 ```
 ```shell
-launchctl setenv OLLAMA_HOST "0.0.0.0
+launchctl setenv OLLAMA_HOST "0.0.0.0"
 ```
 
 3. Open Ollama and execute on terminal
