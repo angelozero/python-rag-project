@@ -96,3 +96,31 @@ uv run main.py
 
 #### Código fonte do projeto
 - [Github - AngeloZero](https://github.com/angelozero/python-rag-project)
+
+#### Fluxograma 
+
+```shell
+1 - Indexação
+    - PDF em Vetor
+        - Python ------------- Lê o PDF e o fatia em pequenos pedaços (chunks).
+        - LiteLLM (Docker) --- Recebe o chunk e olha no seu `config.yaml`.
+        - Ollama ------------- Ativa o Modelo de Embedding (Aqui o LLM continua "dormindo")
+        - Embedding: --------- Transforma e retorna o texto em uma lista de vetores.
+        - ChromaDB ----------- Recebe os vetores
+
+2 - Pergunta (Busca na Base)
+    - Duvida do usuario
+        - Python ------------- Recebe a pergunta do usuario
+        - LiteLLM (Docker) --- Recebe a pergunta e aciona novamente o Modelo de Embedding no Ollama (transforma a pergunta em vetor).
+        - ChromaDB ----------- Com o vetor da pergunta, o banco faz um cálculo de proximidade devolvendo 3 chunks.
+
+3 - Geração de Resposta
+    - Usando LLM
+        - Python ------------- Pega os 3 chunks que o Chroma achou e monta um Prompt.
+        - LiteLLM (Docker) --- Recebe esse prompt e agora, em vez de pedir um embedding, ele faz uma chamada de **Chat**. 
+            - Atraves do config.yaml ele decide: "Mandar isso para o Llama 3.2".
+        - Ollama é acionado ---  Aciona o LLM (Llama 3.2). 
+        - LLM lê o contexto enviado, usa sua capacidade de raciocínio e redige uma resposta em linguagem natural.
+        - LiteLLM recebe o texto final e entrega para o Python
+        - Resposta para o usuário
+```
