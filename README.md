@@ -84,9 +84,11 @@ uv run main.py
 
 ### Lanchain Smith - Monitorando suas Requisições
 
-- Acesse [LangChain Smith](https://eu.smith.langchain.com/) e realize seu cadastro. 
+Uma plataforma de DevOps para IA que permite depurar, testar, avaliar e monitorar fluxos de trabalho e agentes construídos com LLMs.
+
+- Acesse [LangChain Smith](https://eu.smith.langchain.com/).
 - Crie seu projeto no site.
-- Configure seu `.env` com as seguintes informações do site
+- Configure seu `.env`.
 
 ```properties
 # LANGCHAIN SMITH
@@ -103,12 +105,31 @@ OPENAI_API_KEY="api-key-angelo-1234"
 
 ---
 
-| Etapas de desenvolvimento |
+### Tavily - Uma ferramenta de busca otimizada Agentes de IA e LLMs
+
+[Tavily](https://app.tavily.com/home) filtra, extrai e agrega o conteúdo relevante da web de forma que a IA possa processar as informações imediatamente.
+
+#### Foco em RAG (Retrieval-Augmented Generation)
+A Tavily entrega apenas o **texto limpo e relevante** das suas consultasn na web, o que economiza tokens e melhora a precisão da resposta da IA.
+
+#### Principais Funcionalidades
+- **Search & Crawl:** Realiza buscas em tempo real e varre o conteúdo dos sites.
+- **AI-Native Formatting:** Os resultados são entregues em formatos otimizados para prompts (JSON ou texto puro).
+- **Content Extraction:** Extrai apenas o conteúdo principal de um artigo, descartando anúncios, menus e rodapés.
+- **Filter & Domain Control:** Permite restringir a busca a domínios específicos ou tipos de arquivos (como PDFs).
+
+
+
+---
+
+### Etapas de desenvolvimento
+|  |
 | ----- |
 | 01 - Criando a base de dados vetorizada com Ollama Embeddings |
 | 02 - Implementando o RAG com ChatOllama |
 | 03 - Migração de OpenAI para Ollama (local e gratuito) |
 | 04 - Adicionando monitoria com LangChain Smith |
+| 05 - Adicionando Tavily para buscas na web | 
 
 ---
 

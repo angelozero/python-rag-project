@@ -11,7 +11,7 @@ MODEL_NAME = os.getenv("MODEL_NAME")
 API_KEY = os.getenv("API_KEY")
 BASE_URL = os.getenv("BASE_URL")
 
-def generate_llm():
+def chat_model():
     """
     Initializes and returns the Chat Model (LLM) instance.
     Uses LiteLLM proxy via OpenAI-compatible interface.
@@ -23,7 +23,7 @@ def generate_llm():
         base_url=BASE_URL,
     )
 
-def generate_init_embeddings():
+def get_embeddings():
     """
     Initializes and returns the Embeddings instance.
     Configured to handle float encoding format for Ollama compatibility.
