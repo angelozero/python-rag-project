@@ -56,7 +56,7 @@ ollama serve
 
 ---
 
-### 01 - Configuração inicial
+#### Configuração inicial
 -   `uv add langchain`
 -   `uv add langchain-ollama`
 -   `uv add langchain-community`
@@ -66,7 +66,7 @@ ollama serve
 -   `uv add chromadb`
 -   `uv add pypdf`
 
-### 02 - Criando o banco de dados vetorizado
+#### Criando o banco de dados vetorizado
 
 Coloque seus arquivos PDF na pasta `base/` e execute:
 
@@ -74,11 +74,32 @@ Coloque seus arquivos PDF na pasta `base/` e execute:
 uv run create_db.py
 ```
 
-### 03 - Fazendo perguntas ao RAG
+#### Fazendo perguntas ao RAG
 
 ```bash
 uv run main.py
 ```
+
+---
+
+### Lanchain Smith - Monitorando suas Requisições
+
+- Acesse [LangChain Smith](https://eu.smith.langchain.com/) e realize seu cadastro. 
+- Crie seu projeto no site.
+- Configure seu `.env` com as seguintes informações do site
+
+```properties
+# LANGCHAIN SMITH
+LANGSMITH_TRACING=true
+LANGSMITH_ENDPOINT=https://eu.api.smith.langchain.com
+LANGSMITH_API_KEY=YOUR_LANGSMITH_API_KEY
+LANGSMITH_PROJECT="python-rag-project"
+OPENAI_API_KEY="api-key-angelo-1234"
+```
+
+- Execute a classe `main.py` e verifique os logs no site.
+
+![langchain-smith](langchain-smith.png)
 
 ---
 
@@ -87,6 +108,7 @@ uv run main.py
 | 01 - Criando a base de dados vetorizada com Ollama Embeddings |
 | 02 - Implementando o RAG com ChatOllama |
 | 03 - Migração de OpenAI para Ollama (local e gratuito) |
+| 04 - Adicionando monitoria com LangChain Smith |
 
 ---
 
