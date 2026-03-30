@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage, SystemMessage
+from src.service.structured_output_pydantic import AgentResponse
 from src.config.llm_factory import chat_model
 from tavily import TavilyClient
 
@@ -12,7 +13,7 @@ tavily = TavilyClient()
 def tavily_execute():
     llm = chat_model()
     tools = [search]
-    agent = create_agent(model=llm, tools=tools, debug=True)
+    agent = create_agent(model=llm, tools=tools, debug=True, response_format=AgentResponse)
     result = agent.invoke(
         {
             "messages": [
@@ -31,7 +32,8 @@ def tavily_execute():
         },
         config={"recursion_limit": 10}
     )
-    print(f"\nTools Response: ", result)
+    print(f"\n\nStructed Response: ", result['structured_response'])
+    # print(f"\n\nTools Response: ", result)
 
 
 @tool

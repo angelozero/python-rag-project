@@ -8,12 +8,12 @@ CHROMA_PATH = "chunks_db"
 MODEL = "llama3.2"
 
 PROMPT_TEMPLATE = """
-Responsa a pergunta baseada apenas no seguinte contexto:
+Responda a pergunta baseada apenas no seguinte contexto:
 {context}
 
 ---
 
-Responsa a pergunta baseada apenas no seguinte contexto:
+Responda a pergunta baseada apenas no seguinte contexto:
 {question}
 """
 

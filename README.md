@@ -153,8 +153,52 @@ ToolMessage(content='Mercury, Venus, Earth...')
 # AIMessage(content='The planets are Mercury, Venus...')` com `finish_reason: 'stop'
 ```
 
+### Saída Estruturadas com Pydantic
+Aqui transformamos uma conversa de chat informal em um fluxo de dados estruturado, onde cada informação tem seu lugar e tipo definido.
 
----
+```python
+agent = create_agent(model=llm, tools=tools, debug=True, response_format=AgentResponse)
+```
+
+```python
+from typing import List
+from pydantic import BaseModel, Field
+
+class Source(BaseModel):
+    """Schema for a source used by the agent"""
+    url: str = Field(description="The URL of the source")
+    title: str = Field(description="The title of the webpage") # Novo campo
+    relevance_score: float = Field(description="How relevant this link is from 0 to 1")
+    
+class AgentResponse(BaseModel):
+    """Schema for agent response with answer and sources"""
+    answer:str = Field(description="The agent's answer to the query")
+    sources: List[Source] = Field(default_factory=list, description="List of sources used to generate the answer")
+```
+
+1.  **`chat_model` (O Cérebro):** É quem decide o que fazer. Ele conhece as regras da linguagem e como usar ferramentas.
+2.  **`search` (As Mãos):** É a capacidade do agente de sair da "caixa" (o treinamento dele) e buscar dados novos no mundo real (Tavily).
+3.  **`AgentResponse` (O Filtro de Saída):** É o contrato final. Ele obriga o "Cérebro" a não apenas falar, mas organizar a fala em gavetas específicas (`answer` e `sources`).
+4.  **`Source` (A Etiqueta):** É a definição de como cada item dentro da gaveta de "fontes" deve se parecer.
+
+```bash
+Structed Response:  
+    answer='The planets are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune.' 
+    sources=[
+        Source(
+                url='https://www.quora.com/What-are-the-names-in-order-of-all-official-planets-currently-in-our-solar-system', 
+                title='What are the names, in order, of all official planets currently in our ...', 
+                relevance_score=0.9986223
+            ), 
+        Source(
+                url='https://astrobackyard.com/planets-in-order/', 
+                title='Planets in Order From the Sun | Pictures, Facts, and Planet Info', 
+                relevance_score=0.99108386
+            )
+    ]
+```
+
+--- 
 
 ### Etapas de desenvolvimento
 |  |
@@ -164,6 +208,7 @@ ToolMessage(content='Mercury, Venus, Earth...')
 | 03 - Migração de OpenAI para Ollama (local e gratuito) |
 | 04 - Adicionando monitoria com LangChain Smith |
 | 05 - Adicionando Tavily para buscas na web | 
+| 06 - Outputs padronizados com Pydantic | 
 
 ---
 
