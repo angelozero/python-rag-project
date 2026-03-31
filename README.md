@@ -198,7 +198,70 @@ Structed Response:
     ]
 ```
 
---- 
+### Agent Loops
+
+#### 1. O Conceito de Agent Loop
+
+Diferente de uma chamada simples de "pergunta e resposta", um **Agent Loop** permite que o modelo de linguagem "pense" em etapas. Ele avalia a pergunta, decide qual ferramenta usar, observa o resultado e decide o próximo passo até chegar à conclusão.
+
+No código, o loop é controlado por um limite máximo de iterações para evitar loops infinitos e custos desnecessários:
+
+```python
+for iteration in range(1, MAX_ITERATIONS + 1):
+    ai_message = llm_with_tools.invoke(messages)
+    # O modelo decide se precisa de uma ferramenta ou se já tem a resposta
+```
+
+---
+
+#### 2. Tool Binding (Acoplamento de Ferramentas)
+
+Para que a LLM saiba que pode executar ações, as funções Python são decoradas com `@tool` e "anexadas" ao modelo. Isso injeta a assinatura da função (nome, argumentos e docstring) no prompt do sistema.
+
+```python
+@tool
+def get_product_price(product: str) -> float:
+    """Look up the price of a product in the catalog."""
+    # ... lógica da função
+```
+
+O comando `llm.bind_tools(tools)` é o que transforma um modelo de chat comum em um agente capaz de selecionar funções.
+
+---
+
+#### 3. O Fluxo de Raciocínio (System Message)
+
+A "inteligência" e o comportamento do agente são moldados pelo `SystemMessage`. Note como o prompt abaixo estabelece uma **Máquina de Estados** dentro da LLM:
+
+```python
+SystemMessage(content=(
+    "1. PRICE LOOKUP: You MUST call 'get_product_price'.\n"
+    "2. DISCOUNT POLICY: STOP and ask the user for their tier if missing.\n"
+    "3. CALCULATION: Once you have BOTH, call 'apply_discount' ONCE."
+))
+```
+Essa instrução força o modelo a seguir uma sequência lógica: **Coleta de Dados → Validação → Execução.**
+
+---
+
+#### 4. Observação e Memória (History Management)
+
+O agente não "lembra" do que fez automaticamente. Cada interação precisa ser alimentada de volta no histórico de mensagens. O loop realiza este gerenciamento manualmente:
+
+1.  **AI Message**: O modelo expressa o desejo de usar uma ferramenta (`tool_calls`).
+2.  **Tool Message**: O código executa a função Python e devolve o resultado para a LLM através de uma `ToolMessage`.
+
+```python
+# Adiciona a intenção da IA ao histórico
+messages.append(ai_message)
+
+# Adiciona o resultado real da ferramenta ao histórico
+messages.append(
+    ToolMessage(content=str(observation), tool_call_id=tool_call_id)
+)
+```
+---
+
 
 ### Etapas de desenvolvimento
 |  |
@@ -209,6 +272,7 @@ Structed Response:
 | 04 - Adicionando monitoria com LangChain Smith |
 | 05 - Adicionando Tavily para buscas na web | 
 | 06 - Outputs padronizados com Pydantic | 
+| 07 - Agents Loops |
 
 ---
 
